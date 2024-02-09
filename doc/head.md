@@ -55,7 +55,9 @@ import numpy as np
     lossList = [0.5, 0.4, 0.3, 0.2, 0.1]
     drawLossLs(lossList, "训练损失变化图")
 ```
+
 ---
+
 ### easyTrain
 
 #### 函数名称：
@@ -71,15 +73,15 @@ import numpy as np
 - data: 输入数据
 - target: 目标数据
 - model: 模型
-- criterion: 损失函数，默认为MSELoss()
-- optim: 优化器，默认为None
-- epoch: 训练轮数，默认为10
-- returnLossList: 是否返回损失列表，默认为False
-- printLoss: 是否打印损失，默认为False
+- criterion: 损失函数，默认为 MSELoss()
+- optim: 优化器，默认为 None
+- epoch: 训练轮数，默认为 10
+- returnLossList: 是否返回损失列表，默认为 False
+- printLoss: 是否打印损失，默认为 False
 
 #### 返回值：
 
-- 如果returnLossList为True，则返回损失列表，否则返回None
+- 如果 returnLossList 为 True，则返回损失列表，否则返回 None
 
 #### 示例：
 
@@ -90,3 +92,4 @@ model = NeuralNetwork()
 criterion = MSELoss()
 loss = easyTrain(data, target, model, criterion, epoch=20, returnLossList=True, printLoss=True)
 
+```

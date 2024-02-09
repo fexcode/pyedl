@@ -44,9 +44,9 @@ Linear 类实现线性变换。
 
 ### Sigmoid 类
 
-`Sigmoid` 类实现sigmoid非线性函数。
+`Sigmoid` 类实现 sigmoid 非线性函数。
 
 #### 方法:
 
 - `__init__()`: 初始化方法。
-- `forward(input)`: 对输入进行sigmoid转换。
+- `forward(input)`: 对输入进行 sigmoid 转换。

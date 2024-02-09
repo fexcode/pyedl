@@ -22,21 +22,65 @@ def drawLossLs(lossList: list, title="PYEDL!!!"):
     drawLossLs(lossList, "训练损失变化图")
 
     """
-    plt.rcParams['font.sans-serif'] = ['SimHei']  # 设置字体为黑体
-    plt.rcParams['axes.unicode_minus'] = False  # 解决负号'-'显示为方块的问题
+    plt.rcParams["font.sans-serif"] = ["SimHei"]  # 设置字体为黑体
+    plt.rcParams["axes.unicode_minus"] = False  # 解决负号'-'显示为方块的问题
     x = range(len(lossList))
-    # 绘制折线图
-    plt.plot(x, lossList, marker='*')
-    # 添加标题和标签
-    plt.title(
-        title, fontproperties='KaiTi', fontsize=12)
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    # 显示图表
-    plt.show()
+    try:
+
+        # 绘制折线图
+        plt.plot(x, lossList, marker="*")
+        # 添加标题和标签
+        plt.title(title, fontproperties="KaiTi", fontsize=12)
+        plt.xlabel("Epoch")
+        plt.ylabel("Loss")
+        # 显示图表
+        plt.show()
+    except TypeError:
+        print("\n\n Wraning!!! 绘图时类型出错,程序正在尝试修复!!! \n\n")
+
+        try:
+            raise Exception
+            lossList = [int(lossList[i].data) for i in range(len(lossList))]
+            # 绘制折线图
+            plt.plot(x, lossList, marker="*")
+            print("看来修复成功了")
+            # 添加标题和标签
+            plt.title(title, fontproperties="KaiTi", fontsize=12)
+            plt.xlabel("Epoch")
+            plt.ylabel("Loss")
+
+            # 显示图表
+            plt.show()
+            print("程序修复成功")
+
+        except KeyboardInterrupt:
+            exit(114514)
+        except Exception as e:
+            print("没办法了,自己修复吧")
+            print(e)
+            print(
+                f"""
+|--------------------------------------------------               
+|    作者给你一点有用的信息:                         
+|    type(lossList)={type(lossList)}               
+|    type(lossList[0])={type(lossList[0])}    
+|    lossList[0].data=  {lossList[0].data}  
+|    type(lossList[0].data)={type(lossList[0].data)}
+|--------------------------------------------------
+                  """
+            )
 
 
-def easyTrain(data, target, model, criterion=MSELoss(), optim=None, epoch=10, returnLossList=True, printLoss=False):
+def easyTrain(
+    data,
+    target,
+    model,
+    criterion=MSELoss(),
+    optim=None,
+    epoch=10,
+    returnLossList=True,
+    printLoss=False,
+):
     """
     函数名称：easyTrain
 

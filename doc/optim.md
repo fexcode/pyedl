@@ -1,8 +1,10 @@
 # 优化器
-## SGD优化器
+
+## SGD 优化器
 
 ### 简介
-SGD（Stochastic Gradient Descent）是一种常用的优化算法，用于机器学习和深度学习模型的训练。本文档描述了一个简单的SGD优化器的类实现，包括初始化参数、梯度归零和参数更新功能。
+
+SGD（Stochastic Gradient Descent）是一种常用的优化算法，用于机器学习和深度学习模型的训练。本文档描述了一个简单的 SGD 优化器的类实现，包括初始化参数、梯度归零和参数更新功能。
 
 ### 类定义
 
@@ -30,7 +32,9 @@ class SGD():
         - zero：一个布尔值，指定是否将梯度归零。默认为True。
         '''
 ```
+
 ### 使用示例
+
 ```python
 # 创建一个SGD优化器实例
 optimizer = SGD(model.parameters(), alpha=0.01)
@@ -39,16 +43,16 @@ optimizer = SGD(model.parameters(), alpha=0.01)
 for input, target in dataset:
     # 1. 清除过往梯度
     optimizer.zero_grad()
-    
+
     # 2. 前向传播
     output = model(input)
-    
+
     # 3. 计算损失
     loss = loss_function(output, target)
-    
+
     # 4. 反向传播
     loss.backward()
-    
+
     # 5. 更新模型参数
     optimizer.step()
 ```

@@ -5,8 +5,7 @@ from pyedl.optim import SGD
 ############################### 神经元层 #################################
 
 
-class Layer():
-
+class Layer:
     """
     基本的神经网络层类
     """
@@ -19,7 +18,7 @@ class Layer():
 
 
 class Linear(Layer):
-    '''
+    """
     Linear
 
     功能: 实现线性变换
@@ -40,11 +39,11 @@ class Linear(Layer):
     input = Tensor(np.array([[1, 2, 3]]))
     output = linear.forward(input)
 
-    '''
+    """
 
     def __init__(self, input_size, output_size):
         super().__init__()
-        W = np.random.randn(input_size, output_size)*np.sqrt(2.0/(input_size))
+        W = np.random.randn(input_size, output_size) * np.sqrt(2.0 / (input_size))
         self.weight = Tensor(W, autograd=True)
         self.bias = Tensor(np.zeros(output_size), autograd=True)
 
@@ -71,6 +70,7 @@ class Sequential(Layer):
             params += l.get_parameters()
         return params
 
+
 ############################### 损失函数 #################################
 
 
@@ -79,13 +79,16 @@ class MSELoss(Layer):
         super().__init__()
 
     def forward(self, pred, target):
-        return ((pred-target)*(pred-target)).sum(0)
-    
+        return ((pred - target) * (pred - target)).sum(0)
+
+
 class CrossEntropyLoss(object):
     def __init__(self):
         super().__init__()
-    def forward(self,input,target):
+
+    def forward(self, input, target):
         return input.cross_entropy(target)
+
 
 ############################### 非线性层 #################################
 
@@ -111,12 +114,10 @@ if __name__ == "__main__":
         print("--------------------基本神经网络层,可行性测试------------------------")
         np.random.seed(0)
 
-        data = Tensor(
-            np.array([[0, 0], [0, 1], [1, 0], [1, 1]]),
-            autograd=True)
+        data = Tensor(np.array([[0, 0], [0, 1], [1, 0], [1, 1]]), autograd=True)
         target = Tensor(np.array([[0], [1], [0], [1]]), autograd=True)
 
-        modle = Sequential([Linear(2, 3),Sigmoid(), Linear(3, 1),Sigmoid()])
+        modle = Sequential([Linear(2, 3), Sigmoid(), Linear(3, 1), Sigmoid()])
 
         optim = SGD(parameters=modle.get_parameters(), alpha=0.01)
         criterion = MSELoss()
