@@ -79,7 +79,10 @@ class Tensor(object):
         1. 该方法仅在启用自动梯度计算（autograd）的情况下生效。
         2. 在调用该方法时，会根据梯度的来源和创建者，并根据对应的操作类型来执行相应的反向传播操作。
         """
-        if self.autograd:
+        if (self.autograd):
+            # if (grad is None):
+            #     grad = Tensor(np.ones_like(self.data))
+
             if (grad_origin is not None):
                 if (self.children[grad_origin.id] == 0):
                     # raise Exception("不能多次进行反向传播")
@@ -140,6 +143,10 @@ class Tensor(object):
                     ones = Tensor(np.ones_like(self.grad.data))
                     self.creators[0].backward(self.grad*(ones-(ones*self)))
 
+                if self.creation_op=="cross_entropy":
+                    dx=self.softmax_output-self.target_dist
+                    self.creators[0].backward(Tensor(dx))
+
                 if "sum" in self.creation_op:
                     # 注意,传入的creation_op格式为sum_${dim}
                     # 我们要取dim
@@ -153,6 +160,28 @@ class Tensor(object):
                 if "expand" in self.creation_op:
                     dim = int(self.creation_op.split("_")[1])
                     self.creators[0].backward(self.grad.sum(dim))
+
+                
+
+    def cross_entropy(self, target_indices):
+        temp = np.exp(self.data)
+        softmax_output = temp/np.sum(temp,
+                                     axis=len(self.data.shape)-1,
+                                     keepdims=True)
+        t = target_indices.data.flatten()
+        p = softmax_output.reshape(len(t), -1)
+        target_dist = np.eye(p.shape[1])[t]
+        loss = -(np.log(p)*(target_dist)).sum(1).mean()
+
+        if self.autograd:
+            out=Tensor(loss,
+                       autograd=True,
+                       creators=[self],
+                       creation_op="cross_entropy")
+            out.softmax_output = softmax_output
+            out.target_dist=target_dist
+            return out
+        return Tensor(loss)
 
     def sum(self, dim):
         """

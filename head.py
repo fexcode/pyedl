@@ -1,5 +1,5 @@
 from pyedl.main import Tensor
-from pyedl.nn import Sequential, Linear, MSELoss, Sigmoid, Tanh
+from pyedl.nn import Sequential, Linear, MSELoss, Sigmoid, Tanh, CrossEntropyLoss
 from pyedl.optim import SGD
 from matplotlib import pyplot as plt
 import numpy as np
@@ -36,7 +36,7 @@ def drawLossLs(lossList: list, title="PYEDL!!!"):
     plt.show()
 
 
-def easyTrain(data, target, model, criterion=MSELoss(), optim=None, epoch=10, returnLossList=False, printLoss=False):
+def easyTrain(data, target, model, criterion=MSELoss(), optim=None, epoch=10, returnLossList=True, printLoss=False):
     """
     函数名称：easyTrain
 
@@ -72,6 +72,11 @@ def easyTrain(data, target, model, criterion=MSELoss(), optim=None, epoch=10, re
         optim.step()
         if printLoss:
             print(loss)
-        lossList.append(loss.data[0])
+        if criterion is MSELoss():
+            lossList.append(loss.data[0])
+        elif criterion is CrossEntropyLoss():
+            lossList.append(loss.data)
+        else:
+            lossList.append(loss.data)
     if returnLossList:
         return lossList
